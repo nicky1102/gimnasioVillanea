@@ -1,0 +1,55 @@
+CREATE TABLE usuario ( idUsuario INT NOT NULL  AUTO_INCREMENT, usuario VARCHAR(20) NOT NULL , apellidos VARCHAR(40) NOT NULL , correo VARCHAR(50) NOT NULL , telefono VARCHAR(11) NOT NULL , contactoEmergencia VARCHAR(11) NOT NULL , direccion VARCHAR(150) NOT NULL , contra VARCHAR(10) NOT NULL , pregunta VARCHAR(20) NOT NULL , fechaCreado VARCHAR(10) NOT NULL , estado CHAR(1) NOT NULL DEFAULT 'A' , intentos INT NOT NULL DEFAULT 3 , idTipoUsuario INT NOT NULL,
+CONSTRAINT PK_idUsuario PRIMARY KEY (idUsuario),
+CONSTRAINT FK_usuario_tipoUsuario FOREIGN KEY (idTipoUsuario) REFERENCES tipousuario(idTipoUsuario) ON DELETE RESTRICT ON UPDATE RESTRICT
+ );
+
+CREACIÓN DE TABLA TIPO USUARIO
+CREATE TABLE tipoUsuario ( idTipoUsuario INT NOT NULL 
+AUTO_INCREMENT , tipoUsuario VARCHAR(10) NOT NULL ,
+CONSTRAINT PK_idTipoUsuario PRIMARY KEY (idTipoUsuario)
+) ;
+
+CREATE TABLE fichasalud( idFichaSalud INT NOT NULL AUTO_INCREMENT , idUsuario INT NOT NULL , tallaPecho DOUBLE NOT NULL , tallaCintura DOUBLE NOT NULL , tallaCadera DOUBLE NOT NULL , estatura DOUBLE NOT NULL , peso DOUBLE NOT NULL , masaCorporal DOUBLE NOT NULL , masaMuscular DOUBLE NOT NULL , enfermedades VARCHAR(100) NOT NULL , fecha VARCHAR(10) NOT NULL , 
+CONSTRAINT PK_idFichaSalud PRIMARY KEY (idFichaSalud),
+CONSTRAINT FK_fichaSalud_usuario FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+TABLA TIPO USUARIO
+INSERT INTO tipousuario (tipoUsuario) VALUES ('admin'), ('cliente');
+
+TABLA USUARIO
+INSERT INTO usuario (usuario, apellidos, correo, telefono, contactoEmergencia, direccion, contra, pregunta, fechaCreado, idTipoUsuario) VALUES ( 'NICOLE', 'PÉREZ GONZÁLEZ', 'nicolepg02@gmail.com', '85647658', '89117634', 'Alajuela', '1234', 'Montaña', '2022-03-28',  1), ('JOSÉ', 'VARGAS DÁVILA', 'joseVD@gmail.com', '87658907', '67456734', 'Heredia', '123456', 'Playa', '2022-04-13', 2)
+
+TABLA FICHA SALUD
+INSERT INTO fichasalud(idUsuario, tallaPecho, tallaCintura, tallaCadera, estatura, peso, masaCorporal, masaMuscular, enfermedades, fecha) VALUES (1,90, 60, 98, 1.64, 60, 22.3, 30.5, 'Ninguna', '2022-03-28'), (2, 86, 80, 82.1,80, 72, 28, 35.2, 'Colesterol', '2022-03-29')
+
+CREATE TABLE agendado (
+  idAgenda INT NOT NULL AUTO_INCREMENT,
+  sesion VARCHAR(255) NOT NULL,
+  metodo VARCHAR(255) NOT NULL,
+  usuario VARCHAR(255) NOT NULL,
+  estadoPagado VARCHAR(255) NOT NULL DEFAULT 'No',
+  CONSTRAINT PK_idAgenda PRIMARY KEY (idAgenda)
+);
+
+INSERT INTO agendado (sesion, metodo, usuario, estadoPagado) VALUES
+('Agendar dia y hora:', 'SINPE', 'GARY', 'No'),
+('Agendar dia y hora:', 'Seleccione un metodo de pago:', 'GARY', 'No'),
+('2', 'SINPE', 'GARY', 'No'),
+('4', 'Efectivo', 'GARY', 'No');
+
+
+CREATE TABLE horarios(
+  idHorarios INT NOT NULL  AUTO_INCREMENT,
+  fecha varchar(255) NOT NULL,
+  horaInicio varchar(255) NOT NULL,
+  horaFin varchar(255) NOT NULL,
+  cupoLimite int(11) NOT NULL,
+  CONSTRAINT PK_horarios PRIMARY KEY (idHorarios)
+)
+
+INSERT INTO horarios (fecha, horaInicio, horaFin, cupoLimite) VALUES
+('2022-04-24', '02:00', '03:00', 7),
+('2022-04-29', '12:00', '01:00', 5),
+('2022-04-27', '11:11', '02:00', 5),
+('2022-04-30', '09:00', '10:00', 10);
